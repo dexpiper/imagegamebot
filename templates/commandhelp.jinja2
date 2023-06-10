@@ -1,0 +1,7 @@
+{% if error_text %}{{ emoji.stop }} <b>{{ error_text }}</b>
+
+{% endif %}Помощь по использованию команды:
+
+{{ emoji.gear }} <b>Как пользоваться:</b>
+{% block usage %}
+{% endblock %}

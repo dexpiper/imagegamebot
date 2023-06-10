@@ -1,0 +1,40 @@
+version: "3.6"
+services:
+  imagegamebot:
+    build: .
+    environment:
+      BOT_TOKEN: ${BOT_TOKEN}
+      ADMIN_TOKEN: ${ADMIN_TOKEN}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_NAME: ${DB_NAME}
+      LOGLEVEL: ${LOGLEVEL}
+    restart: on-failure
+    stdin_open: true  # docker run -i
+    tty: true         # docker run -t
+    depends_on:
+      - postgres_db
+    networks:
+      - default
+
+  postgres_db:
+    image: postgres
+    container_name: db-postgres
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+    ports: 
+      - 5432:5432
+    networks:
+      - default
+    volumes:
+      - db-data:/var/lib/postgresql/data
+
+networks:
+  default:
+    name: bot_network
+
+volumes:
+  db-data:
+    name: imagegamebot-pg-data

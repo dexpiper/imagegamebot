@@ -1,0 +1,7 @@
+{{ emoji.report }} Ответы игроков, загадка {{ emoji.chess }}{{ puzzle.id }} {% if puzzle.name %}({{ puzzle.name }}){% endif %}:
+
+{% for answer in puzzle.answers %}
+{{ emoji.elf }}<b>{{ answer.username }}</b> (#{{ answer.user_id }}) --> <i>{{ answer.text }}</i> ({{ emoji.time }} {{ answer.registered | format_datetime('%d.%m.%Y %H:%M:%S') }})
+{% endfor %}
+
+<b>Всего ответов:</b> {{puzzle.answers|length}}
