@@ -9,7 +9,7 @@ db = Database()
 
 
 class Answer(db.Entity):
-    user_id = Required(int)
+    user_id = Required(int, size=64)
     username = Optional(str)
     text = Required(str, max_len=150)
     registered = Required(datetime, default=datetime.now)
