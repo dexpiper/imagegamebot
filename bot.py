@@ -279,6 +279,38 @@ def register_puzzle(message):
         reply(message, views.got_puzzle(puzzle=puzzle))
 
 
+@bot.message_handler(commands=['recent'])
+@models.db_session
+def show_recent_answers(message):
+    """
+    Bot shows recent players' answers to all puzzles
+    """
+    user_id = message.from_user.id
+    user_name = message.from_user.username
+    token = message.text[7:].strip()
+    if not token:
+        auth = False
+    elif token != ADMIN_TOKEN:
+        logger.error(
+            f'User {user_id} (name: {user_name}) tried to get recent'
+            f'answers, but used bad ADMIN_TOKEN.'
+        )
+        err_txt = (
+            f'Authentication error. Your token {token} is not valid'
+        )
+        reply(message, views.command_help(command='recent',
+                                          error_text=err_txt))
+        return
+    else:
+        auth = True
+    try:
+        answers = models.Answer.get_recent()
+    except Exception as exc:
+        reply(message, views.error(error_text=exc))
+    else:
+        reply(message, views.show_recent(answers=answers, auth=auth))
+
+
 # Service functions
 def run_long_polling():
     logger.info('Starting polling...')
