@@ -71,3 +71,12 @@ def show_answers(puzzle):
     """
     template = env.get_template("showanswers.jinja2")
     return template.render(puzzle=puzzle, emoji=emoji)
+
+
+def show_recent(answers, auth: bool = False):
+    """
+    Render show_recent template
+    """
+    template = env.get_template("showrecent.jinja2")
+    return template.render(answers=answers, auth=auth,
+                           emoji=emoji)

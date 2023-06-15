@@ -3,7 +3,7 @@ from pony.orm import Required, Optional, Set
 from pony.orm import select, commit, db_session  # noqa: F401
 from pony.orm.core import ObjectNotFound
 
-from datetime import datetime
+from datetime import datetime, timedelta
 
 db = Database()
 
@@ -14,6 +14,12 @@ class Answer(db.Entity):
     text = Required(str, max_len=150)
     registered = Required(datetime, default=datetime.now)
     puzzle = Required('Puzzle')
+
+    def get_recent(self):
+        return select(
+            a for a in Answer
+            if a.registered >= datetime.now() - timedelta(hours=24)
+        )
 
 
 class Puzzle(db.Entity):

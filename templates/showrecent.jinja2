@@ -1,0 +1,7 @@
+{{ emoji.report }} Ответы игроков за последние 24 часа:
+
+{% for answer in answers %}
+{{ emoji.elf }}<b>{{ answer.username }}</b> (#{{ answer.user_id }}) {{ emoji.chess }} {{ answer.puzzle.id }} --> <i>{% if auth %} {{ answer.text }} {% else %} **** {% endif %}</i> ({{ emoji.time }} {{ answer.registered | format_datetime('%d.%m.%Y %H:%M:%S') }})
+{% endfor %}
+
+<b>Всего ответов за последние 24 часа:</b> {{answers|length}}
