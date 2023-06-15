@@ -15,7 +15,8 @@ class Answer(db.Entity):
     registered = Required(datetime, default=datetime.now)
     puzzle = Required('Puzzle')
 
-    def get_recent(self):
+    @classmethod
+    def get_recent(cls):
         return select(
             a for a in Answer
             if a.registered >= datetime.now() - timedelta(hours=24)

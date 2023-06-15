@@ -301,6 +301,8 @@ def show_recent_answers(message):
         reply(message, views.command_help(command='recent',
                                           error_text=err_txt))
         return
+    else:
+        auth = True
     try:
         answers = models.Answer.get_recent()
     except Exception as exc:
